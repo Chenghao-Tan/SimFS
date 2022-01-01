@@ -385,6 +385,8 @@ int rmdir(const char *dirname)
         return FS_NAME_E;
     if (strcmp(dirname, "/") == 0) // root is unremovable
         return FS_PERM_E;
+    if (strcmp(dirname, ".") == 0 || strcmp(dirname, "..") == 0) // unremovable dirs
+        return FS_NAME_E;
 
     // Permission check
     if (perm_check((struct inode *)current_dir, 'w') == 0)
