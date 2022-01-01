@@ -42,6 +42,10 @@ int bl_start()
 
 int bl_end()
 {
+    // Writing to disk (bitmap)
+    for (paddr_t i = sizeof(struct info_block); i < sizeof(struct info_block) + meta.info.bitmap_len; i++)
+        *phy_write(i) = *((char *)bitmap + (i - sizeof(struct info_block))); // forced write in Bytes
+
     if (bitmap)
         free(bitmap);
     bitmap = NULL;
